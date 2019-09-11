@@ -1,5 +1,10 @@
 # Residential HVAC
 
+Calculations are based on:
+- Performance maps from: D. Cutler, J. Winkler, N. Kruis, C. Christensen, M. Brendemuehl. 2013. Improved Modeling of Residential Air Conditioners and Heat Pumps for Energy Calculations. NREL/TP-5500-56354. https://www.nrel.gov/docs/fy13osti/56354.pdf.
+- Assumptions for c_d (cycling derate)
+- Assumptions for rated fan power (W/cfm)
+
 ## Single-speed air conditioners
 
 To calculate COP:
