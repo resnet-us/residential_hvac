@@ -24,8 +24,8 @@ def calc_heat_pump_COPs(seer, hspf):
     # Table 12. HP Total Capacity Coefficients as a Function of Operating Temperatures (deg-F)
     coeff_q_heating = [0.566333415, -0.000744164, -0.0000103, 0.009414634, 0.0000506, -0.00000675]
     
-    cop_cooling = calc_COP_cooling_1spd(seer, fan_power_rated, c_d_cooling, coeff_eir_cooling)
-    cop_heating = calc_COP_heating_1spd(hspf, fan_power_rated, c_d_heating, coeff_eir_heating, coeff_q_heating)
+    cop_cooling = 1.0 / calc_EIR_cooling_1spd(seer, fan_power_rated, c_d_cooling, coeff_eir_cooling)
+    cop_heating = 1.0 / calc_EIR_heating_1spd(hspf, fan_power_rated, c_d_heating, coeff_eir_heating, coeff_q_heating)
     
     return cop_cooling, cop_heating
 

@@ -15,7 +15,7 @@ def calc_air_conditioner_COP(seer):
     # Table 8.  AC EIR Coefficients as a Function of Operating Temperatures (deg-F)
     coeff_eir = [-3.302695861, 0.137871531, -0.001056996, -0.012573945, 0.000214638, -0.000145054]
     
-    cop_cooling = calc_COP_cooling_1spd(seer, fan_power_rated, c_d, coeff_eir)
+    cop_cooling = 1.0 / calc_EIR_cooling_1spd(seer, fan_power_rated, c_d, coeff_eir)
     return cop_cooling
 
 if __name__ == '__main__':

@@ -18,7 +18,7 @@ class COPTests(unittest.TestCase):
         seers = [8, 10, 13, 14, 15]
         hspfs = [6.0, 6.2, 7.7, 8.2, 8.5]
         expected_cops_cooling = [2.49, 3.22, 4.04, 4.42, 4.81]
-        expected_cops_heating = [2.38, 2.47, 3.09, 3.35, 3.51]
+        expected_cops_heating = [2.52, 2.64, 3.38, 3.71, 3.92]
         for i in range(len(seers)):
             print "SEER = %s, HSPF=%s..." % (seers[i], hspfs[i])
             cop_cooling, cop_heating = calc_heat_pump_COPs(seers[i], hspfs[i])

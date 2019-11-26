@@ -12,9 +12,13 @@ def calc_EER_from_EIR(eir, fan_power_rated):
 def calc_biquad(coeff, in_1, in_2):
     return coeff[0] + coeff[1] * in_1 + coeff[2] * in_1 * in_1 + coeff[3] * in_2 + coeff[4] * in_2 * in_2 + coeff[5] * in_1 * in_2
 
-def calc_COP_cooling_1spd(seer, fan_power_rated, c_d, coeff_eir):
+def calc_EIR_cooling_1spd(seer, fan_power_rated, c_d, coeff_eir):
     eer = calc_EER_cooling_1spd(seer, fan_power_rated, c_d, coeff_eir)
-    return 1.0 / calc_EIR_from_EER(eer, fan_power_rated)
+    return calc_EIR_from_EER(eer, fan_power_rated)
+
+def calc_EIR_heating_1spd(hspf, fan_power_rated, c_d, coeff_eir, coeff_q):
+    cop = calc_COP_heating_1spd(hspf, fan_power_rated, c_d, coeff_eir, coeff_q)
+    return calc_EIR_from_COP(cop, fan_power_rated)
 
 def calc_EER_cooling_1spd(seer, fan_power_rated, c_d, coeff_eir):
     # Directly calculate cooling coil net EER at condition A (95/80/67) using SEER
