@@ -29,7 +29,7 @@ Example w/results:
 ```
 $ python heat_pump.py 13 7.7
 COP_cooling: 4.04
-COP_heating: 3.09
+COP_heating: 3.38
 ```
 
 ## Tests
