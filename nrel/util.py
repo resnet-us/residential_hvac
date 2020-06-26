@@ -1,16 +1,7 @@
-cfm_per_btuh = 400.0 / 12000.0
+import os,sys,inspect
+sys.path.insert(1, os.path.join(sys.path[0], 'shared'))
 
-def calc_EIR_from_EER(eer, fan_power_rated):
-    return ((1.0 - (fan_power_rated * 0.03333) * 3.412) / eer - fan_power_rated * 0.03333) * 3.412
-
-def calc_EIR_from_COP(cop, fan_power_rated):
-    return ((1.0/3.412 + fan_power_rated * 0.03333) / cop - fan_power_rated * 0.03333) * 3.412
-
-def calc_EER_from_EIR(eir, fan_power_rated):
-    return ((1.0 - 3.412 * (fan_power_rated * cfm_per_btuh)) / (eir / 3.412 + (fan_power_rated * cfm_per_btuh)))
-
-def calc_biquad(coeff, in_1, in_2):
-    return coeff[0] + coeff[1] * in_1 + coeff[2] * in_1 * in_1 + coeff[3] * in_2 + coeff[4] * in_2 * in_2 + coeff[5] * in_1 * in_2
+from util import *
 
 def calc_EIR_cooling_1spd(seer, fan_power_rated, c_d, coeff_eir):
     eer = calc_EER_cooling_1spd(seer, fan_power_rated, c_d, coeff_eir)
@@ -69,7 +60,7 @@ def calc_COP_heating_1spd(hspf, fan_power_rated, c_d, coeff_eir, coeff_q):
 
     return cop_c
 
-def calc_HSPF_1spd(cop_47, fan_power_rated, c_d, coeff_eir, coeff_q):
+def calc_HSPF_1spd(cop_47, fan_power_rated, c_d, coeff_eir, coeff_q, fan_flow_per_cap=400.0 / 12000.0):
     # Single speed HSPF calculation
 
     eir_47 = calc_EIR_from_COP(cop_47, fan_power_rated)
@@ -80,13 +71,13 @@ def calc_HSPF_1spd(cop_47, fan_power_rated, c_d, coeff_eir, coeff_q):
     q_35 = 0.7519
     q_17 = q_47 * calc_biquad(coeff_q, 70.0, 17.0)
 
-    q_47_net = q_47 + fan_power_rated * 3.412 * cfm_per_btuh
-    q_35_net = q_35 + fan_power_rated * 3.412 * cfm_per_btuh
-    q_17_net = q_17 + fan_power_rated * 3.412 * cfm_per_btuh
+    q_47_net = q_47 + fan_power_rated * 3.412 * fan_flow_per_cap
+    q_35_net = q_35 + fan_power_rated * 3.412 * fan_flow_per_cap
+    q_17_net = q_17 + fan_power_rated * 3.412 * fan_flow_per_cap
 
-    p_47 = (q_47 * eir_47) / 3.412 + fan_power_rated * cfm_per_btuh
-    p_35 = (q_35 * eir_35) / 3.412 + fan_power_rated * cfm_per_btuh
-    p_17 = (q_17 * eir_17) / 3.412 + fan_power_rated * cfm_per_btuh
+    p_47 = (q_47 * eir_47) / 3.412 + fan_power_rated * fan_flow_per_cap
+    p_35 = (q_35 * eir_35) / 3.412 + fan_power_rated * fan_flow_per_cap
+    p_17 = (q_17 * eir_17) / 3.412 + fan_power_rated * fan_flow_per_cap
 
     t_bins = [62.0, 57.0, 52.0, 47.0, 42.0, 37.0, 32.0, 27.0, 22.0, 17.0, 12.0, 7.0, 2.0, -3.0, -8.0]
     frac_hours = [0.132, 0.111, 0.103, 0.093, 0.100, 0.109, 0.126, 0.087, 0.055, 0.036, 0.026, 0.013, 0.006, 0.002, 0.001]
